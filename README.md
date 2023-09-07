@@ -7,7 +7,7 @@ Recipe Book is an Android app that allows users to log their favorite recipes. W
 ## Screenshots
 ### Home
 <!-- ![MainActivity](Screenshots/MainActivity.png) -->
-<img src="Screenshots/RecipeBook_Wireframe.png" alt="Wireframe" width="600"/>
+<img src="Screenshots/MainActivity.png" alt="Wireframe" width="600"/>
 ### Recipe List
 ![RecipeListActivity](Screenshots/RecipeListActivity.png)
 ### Recipe Detail
