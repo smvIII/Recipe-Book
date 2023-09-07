@@ -4,6 +4,14 @@ Recipe Book is an Android app that allows users to log their favorite recipes. W
 ## App Wireframe
 ![Wireframe](Screenshots/RecipeBook_Wireframe.png)
 
+## Screenshots
+### Home
+![MainActivity](Screenshots/MainActivity.png)
+### Recipe List
+![RecipeListActivity](Screenshots/RecipeListActivity.png)
+### Recipe Detail
+![RecipeDetailActivity](Screenshots/RecipeDetailActivity.png)
+
 ## App contributors
 * Stanley Vossler
 * [Theodor Owchariw](https://github.com/TheodorOwchariw "His GitHub profile")
