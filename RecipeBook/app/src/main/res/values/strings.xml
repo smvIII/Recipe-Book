@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Recipe Book</string>
+    <string name="main_activity_header">My Recipes</string>
+    <string name="appetizers">Appetizers</string>
+    <string name="entrees">Entrees</string>
+    <string name="drinks">Drinks</string>
+    <string name="desserts">Desserts</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>

@@ -1,0 +1,91 @@
+package com.zybooks.recipebook.repo;
+
+import android.content.Context;
+
+import androidx.annotation.NonNull;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
+import androidx.sqlite.db.SupportSQLiteDatabase;
+
+import com.zybooks.recipebook.model.Recipe;
+
+import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+public class RecipeRepository {
+
+    //used to keep track of what the current category is so it can display the correct list
+    public enum Category {Entrees, Appetizers, Desserts, Drinks}
+    private static final int NUMBER_OF_THREADS = 4;
+    private static final ExecutorService mDatabaseExecutor =
+            Executors.newFixedThreadPool(NUMBER_OF_THREADS);
+    private final RecipeDao recipeDao;
+    public static Category currentCategory;
+    public static Recipe currentRecipe;
+    private static RecipeRepository instance;
+
+    public static RecipeRepository getInstance(Context context)
+    {
+        if (instance == null)
+        {
+            instance = new RecipeRepository(context);
+        }
+        return instance;
+    }
+
+    public RecipeRepository(Context context)
+    {
+        //Zybooks 7.2.3
+        RoomDatabase.Callback databaseCallback = new RoomDatabase.Callback() {
+            @Override
+            public void onCreate(@NonNull SupportSQLiteDatabase db) {
+                super.onCreate(db);
+            }
+        };
+
+        RecipeDatabase database = Room.databaseBuilder(context, RecipeDatabase.class, "recipe.db")
+                .allowMainThreadQueries() // used for getting list of all database entries
+                .addCallback(databaseCallback) //used for creating, updating, or deleting entries
+                .build();
+
+        recipeDao = database.recipeDao();
+    }
+
+    //getters
+    public ArrayList<Recipe> getEntreeRecipeList()
+    {
+        return new ArrayList<>(recipeDao.getRecipes("Entrees"));
+    }
+
+    public ArrayList<Recipe> getAppetizerRecipeList()
+    {
+        return new ArrayList<>(recipeDao.getRecipes("Appetizers"));
+    }
+
+    public ArrayList<Recipe> getDessertRecipeList()
+    {
+        return new ArrayList<>(recipeDao.getRecipes("Desserts"));
+    }
+
+    public ArrayList<Recipe> getDrinkRecipeList()
+    {
+        return new ArrayList<>(recipeDao.getRecipes("Drinks"));
+    }
+
+
+    //adding, updating, or deleting anything from database runs on background thread
+    public void Add(Recipe recipe)
+    {
+        mDatabaseExecutor.execute(() -> recipeDao.addRecipe(recipe));
+    }
+
+    public void Update(Recipe recipe)
+    {
+        mDatabaseExecutor.execute(() -> recipeDao.updateRecipe(recipe));
+    }
+    public void Remove(Recipe recipe)
+    {
+        mDatabaseExecutor.execute(() -> recipeDao.deleteRecipe(recipe));
+    }
+
+}
